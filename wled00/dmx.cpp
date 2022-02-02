@@ -14,8 +14,6 @@ void handleDMX()
   // don't act, when in DMX Proxy mode
   if (e131ProxyUniverse != 0) return;
 
-  // TODO: calculate brightness manually if no shutter channel is set
-
   uint8_t brightness = strip.getBrightness();
 
   uint16_t len = strip.getLengthTotal();
@@ -26,6 +24,15 @@ void handleDMX()
     byte r = in >> 16 & 0xFF;
     byte g = in >> 8 & 0xFF;
     byte b = in & 0xFF;
+
+    checkDMXShutterChan();
+
+    // If no shutter channel is set, apply brightness to RGB values 
+    if(!DMXShutterChan) { 
+      r = r*brightness/255;
+      g = g*brightness/255;
+      b = b*brightness/255;
+    }
 
     int DMXFixtureStart = DMXStart + (DMXGap * (i - DMXStartLED));
     for (int j = 0; j < DMXChannels; j++) {
@@ -63,7 +70,17 @@ void initDMX() {
   dmx.init(512);        // initialize with bus length
 }
 
+void checkDMXShutterChan() {
+  DMXShutterChan = false;
+  for (int j = 0; j < DMXChannels; j++) {
+    if(DMXFixtureMap[j] == 5) {
+      DMXShutterChan = true;
+    }
+  }
+}
+
 #else
 void handleDMX() {}
 void initDMX() {}
+void checkDMXShutterChan() {}
 #endif
