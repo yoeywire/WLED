@@ -32,7 +32,7 @@
   #define WLED_ENABLE_MQTT         // saves 12kb
 #endif
 #define WLED_ENABLE_ADALIGHT       // saves 500b only
-//#define WLED_ENABLE_DMX          // uses 3.5kb (use LEDPIN other than 2)
+#define WLED_ENABLE_DMX          // uses 3.5kb (use LEDPIN other than 2)
 #ifndef WLED_DISABLE_LOXONE
   #define WLED_ENABLE_LOXONE       // uses 1.2kb
 #endif
@@ -397,12 +397,13 @@ WLED_GLOBAL uint16_t userVar0 _INIT(0), userVar1 _INIT(0); //available for use i
 
 #ifdef WLED_ENABLE_DMX
   // dmx CONFIG
-  WLED_GLOBAL byte DMXChannels _INIT(7);        // number of channels per fixture
+  WLED_GLOBAL byte DMXChannels _INIT(7);            // number of channels per fixture
   WLED_GLOBAL byte DMXFixtureMap[15] _INIT_N(({ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }));
   // assigns the different channels to different functions. See wled21_dmx.ino for more information.
-  WLED_GLOBAL uint16_t DMXGap _INIT(10);          // gap between the fixtures. makes addressing easier because you don't have to memorize odd numbers when climbing up onto a rig.
-  WLED_GLOBAL uint16_t DMXStart _INIT(10);        // start address of the first fixture
-  WLED_GLOBAL uint16_t DMXStartLED _INIT(0);      // LED from which DMX fixtures start
+  WLED_GLOBAL bool DMXShutterChan _INIT(false);     // keeps whether there is a shutter channel set in the DMX mapping
+  WLED_GLOBAL uint16_t DMXGap _INIT(10);            // gap between the fixtures. makes addressing easier because you don't have to memorize odd numbers when climbing up onto a rig.
+  WLED_GLOBAL uint16_t DMXStart _INIT(10);          // start address of the first fixture
+  WLED_GLOBAL uint16_t DMXStartLED _INIT(0);        // LED from which DMX fixtures start
 #endif
 
 // internal global variable declarations

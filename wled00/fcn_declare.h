@@ -72,6 +72,7 @@ void colorRGBtoRGBW(byte* rgb); //rgb to rgbw (http://codewelt.com/rgbw). (RGBW_
 //dmx.cpp
 void initDMX();
 void handleDMX();
+void checkDMXShutterChan();
 
 //e131.cpp
 void handleE131Packet(e131_packet_t* p, IPAddress clientIP, byte protocol);
